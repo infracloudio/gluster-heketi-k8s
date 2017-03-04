@@ -1,0 +1,25 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: pgwriter-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: postgres-writer
+    spec:
+      containers:
+      - name: pgwriter
+        image: harshals/postgreswriter:1.5
+        env:
+        - name: POSTGRES_PASSWORD
+          value: mypassword
+        - name: POSTGRES_USER
+          value: mypguser
+        - name: POSTGRES_DB
+          value: mytstdb
+        - name: POSTGRES_HOST
+          value: postgres
+        - name: POSTGRES_TABLE
+          value: flockertab

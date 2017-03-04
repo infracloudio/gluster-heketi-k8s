@@ -1,0 +1,41 @@
+{% extends "_base.html" %}
+
+{% block content %}
+
+<div class="text-center">
+  <h1>Welcome!</h1>
+</div>
+
+<br>
+
+<form action="/" method="POST">
+  <div class="form-group">
+      Select From Time:
+    <input type="time" name="from_time">
+      Select To Time:
+    <input type="time" name="to_time">
+  </div>
+  <input type="submit" class="btn btn-primary btn-lg btn-block" value="Submit">
+</form>
+
+<br>
+<hr>
+<style>
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+</style>
+<table style="width:100%">
+  <tr>
+    <th>Timestamp</th>
+    <th>Container ID</th>
+    <th>Counter</th>
+  </tr>
+<div>
+  {% for post in posts %}
+    <tr><td>{{post.intime.strftime('%Y-%m-%d %H:%M:%S')}}</td><td>{{post.container_id}}</td><td>{{post.counter}}</td></tr>
+  {% endfor %}
+</div>
+</table>
+{% endblock %}

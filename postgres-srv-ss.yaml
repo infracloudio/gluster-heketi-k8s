@@ -1,0 +1,56 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+  labels:
+    name: postgres
+spec:
+  ports:
+  - port: 5432
+    targetPort: 5432
+  clusterIP: None
+  selector:
+    role: postgres
+---
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: postgres-ss
+spec:
+  serviceName: "postgres"
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        role: postgres
+        environment: test
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+        - name: postgres
+          image: "harshals/mypostgres:1.4"
+          env:
+            - name: POSTGRES_PASSWORD
+              value: mypassword
+            - name: POSTGRES_USER
+              value: mypguser
+            - name: POSTGRES_DB
+              value: mytstdb  
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgres-persistent-storage
+  volumeClaimTemplates:
+  - metadata:
+      name: postgres-persistent-storage
+      annotations:
+        volume.beta.kubernetes.io/storage-class: "gluster-heketi"
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 5Gi
