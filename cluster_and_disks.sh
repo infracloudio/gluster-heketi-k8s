@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 PROJECT_ID=gluster-k8s-18217;
 CLUSTER_NAME=gfs-k8s-02;
 ZONE=us-central1-a;

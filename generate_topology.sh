@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 rm -f heketi-turnkey-config.yaml;
 
 #
