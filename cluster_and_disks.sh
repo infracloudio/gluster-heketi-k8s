@@ -28,6 +28,7 @@ gcloud compute --project "${PROJECT_ID}" disks create "disk-${n}" --size "20" --
 gcloud compute instances attach-disk ${node} --disk=disk-${n} --zone "${ZONE}"
 n=$(( $n + 1 ));
 gcloud compute ssh ${node} --zone "${ZONE}" --command 'sudo modprobe dm_thin_pool' 
+gcloud compute ssh ${node} --zone "${ZONE}" --command 'sudo service rpcbind stop; sudo update-rc.d rpcbind disable'
 echo "===== Done for node $node ====";
 done
 
